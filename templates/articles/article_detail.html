@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if object %}
+    <div class="container mt-5">
+      <!-- 📰 Post Content -->
+      <h1>{{ object.title }}</h1>
+      <p class="text-muted">By {{ object.author }} | {{ object.date|date:"F j, Y" }}</p>
+      <p>{{ object.body }}</p>
+
+      <!-- ✏️ Edit/Delete Buttons -->
+      {% if user.is_authenticated %}
+        {% if user == object.author %}
+          <a class="btn btn-outline-primary mt-3" href="{% url 'edit' object.pk %}">✏️ Edit Post</a>
+          <a class="btn btn-outline-danger mt-3" href="{% url 'delete_post' object.pk %}">🗑️ Delete Post</a>
+        {% else %}
+          <p class="text-danger mt-3">You are not allowed to modify this post.</p>
+        {% endif %}
+      {% else %}
+        <p class="text-warning mt-3">Please log in to interact with this post.</p>
+      {% endif %}
+    </div>
+
+    <!-- 💬 Comments Section -->
+    <div class="container mt-5" id="comments">
+      <hr>
+      <h3>Comments ({{ object.comments.count }})</h3>
+
+      {% for comment in object.comments.all %}
+        <div class="card my-3">
+          <div class="card-body">
+            <p class="card-text">{{ comment.comment }}</p>
+            <footer class="blockquote-footer">
+              {{ comment.author }} on {{ comment.created|date:"M d, Y H:i" }}
+            </footer>
+          </div>
+        </div>
+      {% empty %}
+        <p>No comments yet.</p>
+      {% endfor %}
+    </div>
+
+    <!-- ✍️ Add a Comment -->
+    <div class="container mt-4">
+      {% if user.is_authenticated %}
+        <h4 class="mb-3">Add a Comment</h4>
+        <form method="post" action="{% url 'add_comment' object.pk %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+      {% else %}
+        <p class="text-info">Log in to leave a comment.</p>
+      {% endif %}
+    </div>
+  {% else %}
+    <p class="container mt-3">No Content Found.</p>
+  {% endif %}
+{% endblock %}

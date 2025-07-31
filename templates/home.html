@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h1 class="display-4 text-center text-primary">Welcome to Django + Bootstrap!</h1>
+  <p class="lead text-muted mb-4 text-center">We missed you. Please sign in.</p>
+  <p class="lead text-center">
+    This page is styled using Bootstrap 5.
+  </p>
+  <div class="text-center">
+    <a href="#" class="btn btn-success btn-lg mt-3">Explore More</a>
+    
+  </div>
+  <a class="text-primary" href="{% url 'forgotten' %}">Forgot Password</a>
+  <a class="text-primary" href="{% url 'logo' %}">Logo Picture</a>
+  <a class="text-primary" href="{% url 'article_list' %}">Article List</a>
+  <a class="container text-secondary" href="{% url 'article_new' %}">Add new Blog</a>
+{% endblock %}

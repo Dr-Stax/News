@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="container mt-5 text-danger">Hey click here to create +News</h2>
+<form method="post">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">Publish</button>
+</form>
+{% endblock %}
