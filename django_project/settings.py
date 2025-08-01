@@ -39,7 +39,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 
 #ALLOWED_HOSTS = ['news-ghw2.onrender.com'] 
-ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['news-u73d.onrender.com']
 #config('ALLOWED_HOSTS', default='').split(',')
 
 
