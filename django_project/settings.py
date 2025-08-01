@@ -16,6 +16,9 @@ from decouple import config
 import dj_database_url
 import os
 
+env = Env()  # new
+env.read_env()  # new
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,13 +29,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+#SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+
+#DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = Env.bool("DEBUG", default=False)
 
 
-ALLOWED_HOSTS = ['news-ghw2.onrender.com'] 
+#ALLOWED_HOSTS = ['news-ghw2.onrender.com'] 
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 #config('ALLOWED_HOSTS', default='').split(',')
 
 
@@ -51,6 +58,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
     'articles.apps.ArticlesConfig',
+    "whitenoise.runserver_nostatic",
 
 ]
 
@@ -62,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -88,15 +97,17 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3',
         conn_max_age=600
     )
+}"""
+
+DATABASES = {
+    "default": env.dj_db_url("DATABASE_URL")
 }
 
-env = Env()  # new
-env.read_env()  # new
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -170,3 +181,13 @@ send_mail(
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+
+
+
+"""STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+"""
+
