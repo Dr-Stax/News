@@ -32,7 +32,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS = ['https://news-ghw2.onrender.com'] 
+#config('ALLOWED_HOSTS', default='').split(',')
 
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
