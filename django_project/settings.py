@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+from environs import Env
 from decouple import config
 import dj_database_url
 import os
@@ -95,6 +95,8 @@ DATABASES = {
     )
 }
 
+env = Env()  # new
+env.read_env()  # new
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -165,3 +167,6 @@ send_mail(
     fail_silently=False,
 )
 """
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
